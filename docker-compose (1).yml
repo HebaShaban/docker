@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  web:
+    image: <IMAGE-NAME>
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+    # command: bash -c "php artisan key:generate && php artisan migrate && php artisan passport:install && php artisan db:seed && php artisan storage:link"
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: 123456789Hh
+      MYSQL_USER: laraveluser
+      MYSQL_PASSWORD: 123456789Hh
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8844:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    depends_on:
+      - mysql
+
+networks:
+  default:
+    driver: bridge
